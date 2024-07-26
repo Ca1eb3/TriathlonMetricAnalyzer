@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using TriathlonMetricAnalyzer.Models;
+using TriathlonMetricAnalyzer.Models.StravaAPIClient;
 
 namespace TriathlonMetricAnalyzer.Controllers
 {
@@ -20,7 +22,7 @@ namespace TriathlonMetricAnalyzer.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            return RedirectToAction("AuthorizeStrava", "StravaOAuth");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
