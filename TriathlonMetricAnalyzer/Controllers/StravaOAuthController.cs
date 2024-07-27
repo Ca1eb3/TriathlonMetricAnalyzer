@@ -8,6 +8,7 @@ namespace TriathlonMetricAnalyzer.Controllers
     {
         private readonly string clientId;
         private readonly string clientSecret;
+        private readonly TokenResponse userToken;
 
         public StravaOAuthController(IConfiguration configuration)
         {
@@ -28,8 +29,8 @@ namespace TriathlonMetricAnalyzer.Controllers
             if (!string.IsNullOrEmpty(code))
             {
                 // Exchange the authorization code for an access token
-                var tokenResponse = await ExchangeCodeForToken(code);
-                return Content($"Authorization code: {code}, Access token: {tokenResponse.access_token}");
+                var userToken = await ExchangeCodeForToken(code);
+                return RedirectToAction("Index", "Home");
             }
             else
             {

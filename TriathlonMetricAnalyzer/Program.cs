@@ -1,7 +1,12 @@
+using TriathlonMetricAnalyzer.Models.StravaAPIClient;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Register the TokenStorageService as a singleton
+builder.Services.AddSingleton<TokenResponse>();
 
 var app = builder.Build();
 

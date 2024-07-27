@@ -20,7 +20,7 @@ namespace TriathlonMetricAnalyzer.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Authorize()
         {
             return RedirectToAction("AuthorizeStrava", "StravaOAuth");
         }
