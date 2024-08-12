@@ -25,6 +25,11 @@ namespace TriathlonMetricAnalyzer.Controllers
             return RedirectToAction("AuthorizeStrava", "StravaOAuth");
         }
 
+        public IActionResult GetAthlete()
+        {
+            return RedirectToAction("GetAuthenticatedAthlete", "StravaAPI");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

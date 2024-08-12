@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Register the TokenStorageService as a singleton
-builder.Services.AddSingleton<TokenResponse>();
+builder.Services.AddSingleton<TokenStorageService>();
 
 var app = builder.Build();
 

@@ -8,13 +8,14 @@ namespace TriathlonMetricAnalyzer.Controllers
     {
         private readonly string clientId;
         private readonly string clientSecret;
-        private readonly TokenResponse userToken;
+        private readonly TokenStorageService userTokenStorage = new TokenStorageService();
 
-        public StravaOAuthController(IConfiguration configuration)
+        public StravaOAuthController(IConfiguration configuration, TokenStorageService UserTokenStorage)
         {
             // Read values from appsettings.json directly
             clientId = configuration.GetValue<string>("Authentication:Client_Id");
             clientSecret = configuration.GetValue<string>("Authentication:Client_Secret");
+            userTokenStorage = UserTokenStorage;
         }
 
         public ActionResult AuthorizeStrava()
@@ -29,7 +30,7 @@ namespace TriathlonMetricAnalyzer.Controllers
             if (!string.IsNullOrEmpty(code))
             {
                 // Exchange the authorization code for an access token
-                var userToken = await ExchangeCodeForToken(code);
+                userTokenStorage.UserToken = await ExchangeCodeForToken(code);
                 return RedirectToAction("Index", "Home");
             }
             else
