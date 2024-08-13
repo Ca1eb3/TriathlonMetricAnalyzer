@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using TriathlonMetricAnalyzer.Models.StorageServices;
 using TriathlonMetricAnalyzer.Models.StravaAPIClient;
 
 namespace TriathlonMetricAnalyzer.Controllers
@@ -21,7 +22,7 @@ namespace TriathlonMetricAnalyzer.Controllers
         public ActionResult AuthorizeStrava()
         {
             string redirectUri = Url.Action("StravaCallback", "StravaOAuth", null, Request.Scheme);
-            string authorizationUrl = $"https://www.strava.com/oauth/authorize?client_id={clientId}&response_type=code&redirect_uri={redirectUri}&scope=read,activity:write&state=mystate";
+            string authorizationUrl = $"https://www.strava.com/oauth/authorize?client_id={clientId}&response_type=code&redirect_uri={redirectUri}&scope=read_all,activity:read_all,activity:write&state=mystate";
             return Redirect(authorizationUrl);
         }
 
