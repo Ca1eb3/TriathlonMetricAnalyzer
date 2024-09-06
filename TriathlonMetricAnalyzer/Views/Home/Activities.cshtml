@@ -1,0 +1,177 @@
+﻿@model IEnumerable<TriathlonMetricAnalyzer.Models.StravaAPIObjects.SummaryActivity>
+
+@{
+    ViewData["Title"] = "Activities";
+}
+
+<h1>Activities</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExternalId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UploadId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Distance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MovingTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ElapsedTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalElevationGain)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ElevationHigh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ElevationLow)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SportType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDateLocal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Timezone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trainer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkoutType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AverageSpeed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxSpeed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kilojoules)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AverageWatts)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeviceWatts)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxWatts)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WeightedAverageWatts)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasHeartrate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AverageHeartrate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxHeartrate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExternalId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UploadId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Distance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MovingTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ElapsedTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalElevationGain)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ElevationHigh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ElevationLow)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SportType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDateLocal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Timezone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trainer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkoutType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AverageSpeed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxSpeed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kilojoules)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AverageWatts)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeviceWatts)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxWatts)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WeightedAverageWatts)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasHeartrate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AverageHeartrate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxHeartrate)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

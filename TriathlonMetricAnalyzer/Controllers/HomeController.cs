@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Diagnostics;
 using TriathlonMetricAnalyzer.Models;
+using TriathlonMetricAnalyzer.Models.StorageServices;
 using TriathlonMetricAnalyzer.Models.StravaAPIClient;
 
 namespace TriathlonMetricAnalyzer.Controllers
@@ -9,10 +10,12 @@ namespace TriathlonMetricAnalyzer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly SummaryActivitiesStorageService summaryActivitiesStorage = new SummaryActivitiesStorageService();
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, SummaryActivitiesStorageService SummaryActivitiesStorage)
         {
             _logger = logger;
+            summaryActivitiesStorage = SummaryActivitiesStorage;
         }
 
         public IActionResult Index()
@@ -34,9 +37,20 @@ namespace TriathlonMetricAnalyzer.Controllers
         {
             return RedirectToAction("GetAthleteActivities", "StravaAPI");
         }
+
         public IActionResult CalculateTLoad()
         {
             return RedirectToAction("CalculateTLoad", "Metrics");
+        }
+
+        public IActionResult Activities()
+        {
+            if (summaryActivitiesStorage.SummaryActivities != null)
+            {
+                return View(summaryActivitiesStorage.SummaryActivities);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
