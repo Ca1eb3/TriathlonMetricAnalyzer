@@ -21,7 +21,7 @@ namespace TriathlonMetricAnalyzer.Controllers
             {
                 if (activity.StartDate > DateTime.Today.AddDays(-7))
                 {
-                    TLoad += activity.Distance;
+                    TLoad += (activity.Distance / activity.MovingTime) * 1; // the 1 is a place holder for a future calculated intensity factor
                 }
             }
             return PartialView("~/Views/Home/_TLoadPartial.cshtml", TLoad);
