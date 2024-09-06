@@ -13,7 +13,7 @@
     <h1>Athlete Overview</h1>
     <div id="athlete-list">
         <div id="athlete-container">
-            <!-- This is where the partial view content will be loaded -->
+            <!-- This is where the athlete partial view content will be loaded -->
         </div>
     </div>
 
@@ -27,9 +27,37 @@
                     $.ajax({
                         url: '@Url.Action("GetAthlete", "Home")',
                         type: 'GET',
-                        data: { id: 1 }, // Example of passing parameters
+                        data: { id: 1 },
                         success: function (data) {
-                            $('#athlete-container').append(data);
+                            // Store data in session storage
+                            sessionStorage.setItem('AthleteData', data);
+
+                            // Retrieve data from session storage
+                            var athleteData = sessionStorage.getItem('AthleteData');
+
+                            $('#athlete-container').append(athleteData);
+                        },
+                        error: function () {
+                            alert("An error occurred while loading athlete information.");
+                        }
+                    });
+                });
+
+                $('#Calculate-TLoad').click(function () {
+                    event.preventDefault();
+
+                    $.ajax({
+                        url: '@Url.Action("CalculateTLoad", "Home")',
+                        type: 'GET',
+                        data: { id: 1 },
+                        success: function (data) {
+                            // Store data in session storage
+                            sessionStorage.setItem('TLoad', data);
+
+                            // Retrieve data from session storage
+                            var tLoad = sessionStorage.getItem('TLoad');
+
+                            $('#athlete-container').append(tLoad);
                         },
                         error: function () {
                             alert("An error occurred while loading athlete information.");
@@ -37,6 +65,18 @@
                     });
                 });
             });
+        </script>
+        <script>
+            if (sessionStorage.getItem("AthleteData") != null) {
+                // Retrieve data from session storage
+                var athleteData = sessionStorage.getItem('AthleteData');
+                $('#athlete-container').append(athleteData);
+            }
+            if (sessionStorage.getItem("TLoad") != null) {
+                // Retrieve data from session storage
+                var tLoad = sessionStorage.getItem('TLoad');
+                $('#athlete-container').append(tLoad);
+            }
         </script>
     }
 </body>

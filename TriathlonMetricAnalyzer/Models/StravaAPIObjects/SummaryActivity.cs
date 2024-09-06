@@ -28,6 +28,9 @@ namespace TriathlonMetricAnalyzer.Models.StravaAPIObjects
         private bool deviceWatts = false;
         private int maxWatts = 0;
         private int weightedAverageWatts = 0;
+        private bool hasHeartrate = false;
+        private float averageHeartrate = 0;
+        private float maxHeartrate = 0;
 
         [JsonProperty("id")]
         public long Id
@@ -195,6 +198,27 @@ namespace TriathlonMetricAnalyzer.Models.StravaAPIObjects
         {
             get { return weightedAverageWatts; }
             set { weightedAverageWatts = value; }
+        }
+
+        [JsonProperty("has_heartrate")]
+        public bool HasHeartrate
+        {
+            get { return hasHeartrate; }
+            set { hasHeartrate = value; }
+        }
+
+        [JsonProperty("average_heartrate")]
+        public float AverageHeartrate
+        {
+            get { return averageHeartrate; }
+            set { averageHeartrate = value; }
+        }
+
+        [JsonProperty("max_heartrate")]
+        public float MaxHeartrate
+        {
+            get { return maxHeartrate; }
+            set { maxHeartrate = value; }
         }
     }
 }

@@ -34,6 +34,10 @@ namespace TriathlonMetricAnalyzer.Controllers
         {
             return RedirectToAction("GetAthleteActivities", "StravaAPI");
         }
+        public IActionResult CalculateTLoad()
+        {
+            return RedirectToAction("CalculateTLoad", "Metrics");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
