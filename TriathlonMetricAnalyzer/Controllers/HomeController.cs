@@ -11,31 +11,27 @@ namespace TriathlonMetricAnalyzer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly SummaryActivitiesStorageService summaryActivitiesStorage = new SummaryActivitiesStorageService();
+        private readonly AthleteStorageService athleteStorage = new AthleteStorageService();
 
-        public HomeController(ILogger<HomeController> logger, SummaryActivitiesStorageService SummaryActivitiesStorage)
+        public HomeController(ILogger<HomeController> logger, AthleteStorageService AthleteStorage, SummaryActivitiesStorageService SummaryActivitiesStorage)
         {
             _logger = logger;
+            athleteStorage = AthleteStorage;
             summaryActivitiesStorage = SummaryActivitiesStorage;
         }
 
         public IActionResult Index()
         {
+            if (athleteStorage.Athlete != null)
+            {
+                ViewBag.Athlete = athleteStorage.Athlete.FirstName + " " + athleteStorage.Athlete.LastName;
+            }
             return View();
         }
 
         public IActionResult Authorize()
         {
             return RedirectToAction("AuthorizeStrava", "StravaOAuth");
-        }
-
-        public IActionResult GetAthlete()
-        {
-            return RedirectToAction("GetAuthenticatedAthlete", "StravaAPI");
-        }
-
-        public IActionResult GetAthleteActivities()
-        {
-            return RedirectToAction("GetAthleteActivities", "StravaAPI");
         }
 
         public IActionResult CalculateTLoad()

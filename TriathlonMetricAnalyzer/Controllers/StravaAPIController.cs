@@ -23,12 +23,8 @@ namespace TriathlonMetricAnalyzer.Controllers
         public async Task<IActionResult> GetAuthenticatedAthlete()
         {
             athleteStorage.Athlete = await client.SendStravaGetAuthenticateAthleteRequest();
-            if (athleteStorage.Athlete != null)
-            {
-                return PartialView("~/Views/Home/_AthletePartial.cshtml", athleteStorage.Athlete);
-            }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("GetAthleteActivities", "StravaAPI");
         }
 
         public async Task<IActionResult> GetAthleteActivities()

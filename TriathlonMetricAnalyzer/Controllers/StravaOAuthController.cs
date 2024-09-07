@@ -32,7 +32,7 @@ namespace TriathlonMetricAnalyzer.Controllers
             {
                 // Exchange the authorization code for an access token
                 userTokenStorage.UserToken = await ExchangeCodeForToken(code);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("GetAuthenticatedAthlete", "StravaAPI");
             }
             else
             {

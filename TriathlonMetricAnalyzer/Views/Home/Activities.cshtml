@@ -10,15 +10,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExternalId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UploadId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
@@ -93,15 +84,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExternalId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UploadId)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
