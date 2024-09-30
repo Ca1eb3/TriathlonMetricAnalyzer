@@ -1,0 +1,136 @@
+﻿@{
+    ViewData["Title"] = "Zones";
+}
+
+<style>
+    table {
+        border-collapse: separate; /* Ensures that border-spacing works */
+        border-spacing: 10px; /* Adds space between columns and rows */
+        width: 50%; /* Optional: Adjust table width */
+    }
+
+    th, td {
+        padding: 10px; /* Adds space inside each cell */
+        border: 1px solid black; /* Adds border to cells */
+    }
+
+    th {
+        background-color: #f2f2f2; /* Optional: Background color for headers */
+    }
+</style>
+
+<h1>Zones</h1>
+
+<div>
+    <h4>Swim Zones</h4>
+    <table border="1">
+        <tr>
+            <th>Zone</th>
+            <th>Pace/100</th>
+        </tr>
+        <tr>
+            <td>T1</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.SwimZones[0])</td>
+        </tr>
+        <tr>
+            <td>T2</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.SwimZones[1])</td>
+        </tr>
+        <tr>
+            <td>T3</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.SwimZones[2])</td>
+        </tr>
+        <tr>
+            <td>T4</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.SwimZones[3])</td>
+        </tr>
+        <tr>
+            <td>T5</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.SwimZones[4])</td>
+        </tr>
+        <tr>
+            <td>T6</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.SwimZones[5])</td>
+        </tr>
+        <tr>
+            <td>T7</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.SwimZones[6])</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <h4>Bike Zones</h4>
+    <table border="1">
+        <tr>
+            <th>Zone</th>
+            <th>Watts</th>
+        </tr>
+        <tr>
+            <td>T1</td>
+            <td>@ViewBag.BikeZones[0]</td>
+        </tr>
+        <tr>
+            <td>T2</td>
+            <td>@ViewBag.BikeZones[1]</td>
+        </tr>
+        <tr>
+            <td>T3</td>
+            <td>@ViewBag.BikeZones[2]</td>
+        </tr>
+        <tr>
+            <td>T4</td>
+            <td>@ViewBag.BikeZones[3]</td>
+        </tr>
+        <tr>
+            <td>T5</td>
+            <td>@ViewBag.BikeZones[4]</td>
+        </tr>
+        <tr>
+            <td>T6</td>
+            <td>@ViewBag.BikeZones[5]</td>
+        </tr>
+        <tr>
+            <td>T7</td>
+            <td>@ViewBag.BikeZones[6]</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <h4>Run Zones</h4>
+    <table border="1">
+        <tr>
+            <th>Zone</th>
+            <th>Pace/km</th>
+        </tr>
+        <tr>
+            <td>T1</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.RunZones[0])</td>
+        </tr>
+        <tr>
+            <td>T2</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.RunZones[1])</td>
+        </tr>
+        <tr>
+            <td>T3</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.RunZones[2])</td>
+        </tr>
+        <tr>
+            <td>T4</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.RunZones[3])</td>
+        </tr>
+        <tr>
+            <td>T5</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.RunZones[4])</td>
+        </tr>
+        <tr>
+            <td>T6</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.RunZones[5])</td>
+        </tr>
+        <tr>
+            <td>T7</td>
+            <td>@TimeSpan.FromSeconds(ViewBag.RunZones[6])</td>
+        </tr>
+    </table>
+</div>
