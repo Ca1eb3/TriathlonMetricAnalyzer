@@ -5,30 +5,22 @@ using TriathlonMetricAnalyzer.Models.StravaAPIObjects;
 
 namespace TriathlonMetricAnalyzer.Models.StravaAPIClient
 {
-    public class StravaAPIClient
+    public static class StravaAPIClient
     {
 
-        private String baseUrl = $"https://www.strava.com/api/v3";
-        private readonly TokenStorageService userTokenStorage;
+        private static String baseUrl = $"https://www.strava.com/api/v3";
 
-        public StravaAPIClient(TokenStorageService UserTokenStorage)
-        {
-            userTokenStorage = UserTokenStorage;
-        }
-
-
-        public async Task<DetailedAthlete> SendStravaGetAuthenticateAthleteRequest()
+        public static async Task<DetailedAthlete> SendStravaGetAuthenticateAthleteRequest(string userToken)
         {
             HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, baseUrl + "/athlete");
-            message.Headers.Add("Authorization", "Bearer " + userTokenStorage.UserToken.AccessToken);
+            message.Headers.Add("Authorization", "Bearer " + userToken);
             HttpClient client = new HttpClient();
             var response = client.Send(message);
 
             if (response.IsSuccessStatusCode)
             {
                 var responseString = await response.Content.ReadAsStringAsync();
-                DetailedAthlete athlete = JsonConvert.DeserializeObject<DetailedAthlete>(responseString);
-                return athlete;
+                return JsonConvert.DeserializeObject<DetailedAthlete>(responseString);
             }
             else
             {
@@ -36,10 +28,10 @@ namespace TriathlonMetricAnalyzer.Models.StravaAPIClient
             }
         }
 
-        public async Task<List<SummaryActivity>> SendStravaListAthleteActivitiesRequest()
+        public static async Task<List<SummaryActivity>> SendStravaListAthleteActivitiesRequest(string userToken)
         {
             HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, baseUrl + $"/athlete/activities");
-            message.Headers.Add("Authorization", "Bearer " + userTokenStorage.UserToken.AccessToken);
+            message.Headers.Add("Authorization", "Bearer " + userToken);
             HttpClient client = new HttpClient();
             var response = client.Send(message);
 
@@ -48,8 +40,7 @@ namespace TriathlonMetricAnalyzer.Models.StravaAPIClient
                 var responseString = await response.Content.ReadAsStringAsync();
                 JsonSerializerSettings settings = new JsonSerializerSettings();
                 settings.NullValueHandling = NullValueHandling.Ignore;
-                List<SummaryActivity> summaryActivities = JsonConvert.DeserializeObject<List<SummaryActivity>>(responseString, settings);
-                return summaryActivities;
+                return JsonConvert.DeserializeObject<List<SummaryActivity>>(responseString, settings);
             }
             else
             {
@@ -57,10 +48,10 @@ namespace TriathlonMetricAnalyzer.Models.StravaAPIClient
             }
         }
 
-        public async Task<DetailedActivity> SendStravaDetailedActivityRequest(long id)
+        public static async Task<DetailedActivity> SendStravaDetailedActivityRequest(string userToken, long id)
         {
             HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, baseUrl + $"/activities/" + id);
-            message.Headers.Add("Authorization", "Bearer " + userTokenStorage.UserToken.AccessToken);
+            message.Headers.Add("Authorization", "Bearer " + userToken);
             HttpClient client = new HttpClient();
             var response = client.Send(message);
 
@@ -78,10 +69,10 @@ namespace TriathlonMetricAnalyzer.Models.StravaAPIClient
             }
         }
 
-        public async Task<StreamSet> SendStravaGetActivityStreamsRequest(long id)
+        public static async Task<StreamSet> SendStravaGetActivityStreamsRequest(string userToken, long id)
         {
             HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, baseUrl + $"/activities/" + id + "/streams?keys=time,watts&key_by_type=true");
-            message.Headers.Add("Authorization", "Bearer " + userTokenStorage.UserToken.AccessToken);
+            message.Headers.Add("Authorization", "Bearer " + userToken);
             HttpClient client = new HttpClient();
             var response = client.Send(message);
 

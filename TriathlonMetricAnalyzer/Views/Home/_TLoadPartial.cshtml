@@ -1,4 +1,40 @@
-﻿@model float
+﻿@model List<float>
 
-<p>TLoad Last 7 Days: @Model</p>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
+<p>TLoad Last 7 Days: @Model[7]</p>
+
+<div>
+    <canvas id="TLoadChart" style="width:100%;max-width:700px"></canvas>
+    <script>
+        (function myFunc() {
+            const last7Days = [];
+            const today = new Date();
+
+            // Loop to go back 7 days
+            for (let i = 0; i < 7; i++) {
+                const currentDate = new Date();
+                currentDate.setDate(today.getDate() - i);
+
+                // Format date as YYYY-MM-DD
+                const formattedDate = currentDate.toLocaleDateString();
+                last7Days.push(formattedDate);
+            }
+            const xValues = last7Days;
+            const yValues = [@Model[0], @Model[1], @Model[2], @Model[3], @Model[4], @Model[5], @Model[6]];
+    
+            new Chart("TLoadChart", {
+                type: "line",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        backgroundColor: "rgba(0,0,255,1.0)",
+                        borderColor: "rgba(0,0,255,0.1)",
+                        data: yValues
+                    }]
+                }
+            });
+        })();
+    </script>
+</div>

@@ -51,7 +51,7 @@ namespace TriathlonMetricAnalyzer.Controllers
 
         public IActionResult Zones()
         {
-            return RedirectToAction("CalculateZones", "StravaAPI");
+            return RedirectToAction("CalculateZones", "Metrics");
         }
 
 

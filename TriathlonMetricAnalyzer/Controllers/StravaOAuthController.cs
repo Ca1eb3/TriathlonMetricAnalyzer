@@ -10,13 +10,17 @@ namespace TriathlonMetricAnalyzer.Controllers
         private readonly string clientId;
         private readonly string clientSecret;
         private readonly TokenStorageService userTokenStorage = new TokenStorageService();
+        private readonly AthleteStorageService athleteStorage = new AthleteStorageService();
+        private readonly SummaryActivitiesStorageService summaryActivitiesStorage = new SummaryActivitiesStorageService();
 
-        public StravaOAuthController(IConfiguration configuration, TokenStorageService UserTokenStorage)
+        public StravaOAuthController(IConfiguration configuration, TokenStorageService UserTokenStorage, AthleteStorageService AthleteStorage, SummaryActivitiesStorageService SummaryActivitiesStorage)
         {
             // Read values from appsettings.json directly
             clientId = configuration.GetValue<string>("Authentication:Client_Id");
             clientSecret = configuration.GetValue<string>("Authentication:Client_Secret");
             userTokenStorage = UserTokenStorage;
+            athleteStorage = AthleteStorage;
+            summaryActivitiesStorage = SummaryActivitiesStorage;
         }
 
         public ActionResult AuthorizeStrava()
@@ -32,7 +36,9 @@ namespace TriathlonMetricAnalyzer.Controllers
             {
                 // Exchange the authorization code for an access token
                 userTokenStorage.UserToken = await ExchangeCodeForToken(code);
-                return RedirectToAction("GetAuthenticatedAthlete", "StravaAPI");
+                athleteStorage.Athlete = await StravaAPIClient.SendStravaGetAuthenticateAthleteRequest(userTokenStorage.UserToken.AccessToken);
+                summaryActivitiesStorage.SummaryActivities = await StravaAPIClient.SendStravaListAthleteActivitiesRequest(userTokenStorage.UserToken.AccessToken);
+                return RedirectToAction("Index", "Home");
             }
             else
             {
