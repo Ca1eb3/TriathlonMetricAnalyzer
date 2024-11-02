@@ -17,7 +17,7 @@ COPY --from=build-env /out .
 
 # Expose the port for Render
 EXPOSE 8080
-ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_URLS=https://+:8080
 
 # Run the application
 ENTRYPOINT ["dotnet", "TriathlonMetricAnalyzer.dll"]
