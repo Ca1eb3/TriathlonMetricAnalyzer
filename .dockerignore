@@ -1,0 +1,33 @@
+# Ignore local appsettings.json files
+appsettings.Development.json
+appsettings.Local.json
+appsettings.json
+
+# Ignore sensitive files often used in local development
+*.secret
+.env
+
+# Ignore build output directories
+bin/
+obj/
+
+# Ignore local tools and settings files
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore logs
+logs/
+*.log
+
+# Ignore Docker-related files not needed in image
+Dockerfile.*
+docker-compose.yml
+docker-compose*.yml
+
+# Ignore OS-specific files
+*.DS_Store
+Thumbs.db
