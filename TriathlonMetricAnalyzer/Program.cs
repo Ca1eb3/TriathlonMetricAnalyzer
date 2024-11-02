@@ -2,8 +2,10 @@ using TriathlonMetricAnalyzer.Models.StorageServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Set the application to listen on port 8080
-builder.WebHost.UseUrls("http://*:8080");
+// Set the application to listen on the port specified by the PORT environment variable
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://*:{port}");
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
