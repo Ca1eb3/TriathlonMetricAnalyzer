@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Set the application to listen on the port specified by the PORT environment variable
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://*:{port}");
+builder.WebHost.UseUrls($"https://*:{port}");
 
 
 // Add services to the container.
