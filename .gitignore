@@ -12,6 +12,7 @@
 
 appsettings.Development.json
 appsettings.json
+TriathlonMetricAnalyzer/Properties/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
