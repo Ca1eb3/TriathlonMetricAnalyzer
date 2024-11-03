@@ -10,9 +10,9 @@ builder.WebHost.UseUrls($"http://*:{port}");
 if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
 {
     // Add environment variables to configuration
-    builder.Configuration["Authentication:Client_Id"] = Environment.GetEnvironmentVariable("Authentication:Client_Id");
-    builder.Configuration["Authentication:Client_Secret"] = Environment.GetEnvironmentVariable("Authentication:Client_Secret");
-    builder.Configuration["Authentication:Verified_Token"] = Environment.GetEnvironmentVariable("Authentication:Verified_Token");
+    builder.Configuration["Authentication:Client_Id"] = Environment.GetEnvironmentVariable("Client_Id");
+    builder.Configuration["Authentication:Client_Secret"] = Environment.GetEnvironmentVariable("Client_Secret");
+    builder.Configuration["Authentication:Verified_Token"] = Environment.GetEnvironmentVariable("Verified_Token");
 }
 else
 {
