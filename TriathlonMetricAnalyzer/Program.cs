@@ -7,13 +7,14 @@ var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://*:{port}");
 
 // Set environment variables
-// Load configuration from appsettings.json for all environments
-builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-// Override with environment variables in production
-if (builder.Environment.IsProduction())
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
 {
     builder.Configuration.AddEnvironmentVariables();
+}
+else
+{
+    // Load configuration from appsettings.json for all environments
+    builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 }
 
 
