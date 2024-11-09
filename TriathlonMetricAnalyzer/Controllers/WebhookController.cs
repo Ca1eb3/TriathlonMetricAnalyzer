@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using TriathlonMetricAnalyzer.Models.StorageServices;
 using TriathlonMetricAnalyzer.Models.StravaAPIClient;
 using TriathlonMetricAnalyzer.Models.StravaAPIObjects;
 

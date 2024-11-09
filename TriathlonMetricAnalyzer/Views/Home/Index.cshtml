@@ -30,6 +30,12 @@
                         url: '@Url.Action("GetAthlete", "Home")',
                         type: 'GET',
                         data: { id: 1 },
+                        cache: false, // Disable caching
+                        headers: {
+                            'Cache-Control': 'no-cache, no-store, must-revalidate',
+                            'Pragma': 'no-cache',
+                            'Expires': '0'
+                        },
                         success: function (data) {
                             // Store data in session storage
                             sessionStorage.setItem('AthleteData', data);

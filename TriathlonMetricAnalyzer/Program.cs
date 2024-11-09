@@ -1,4 +1,3 @@
-using TriathlonMetricAnalyzer.Models.StorageServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,11 +22,6 @@ else
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-// Register the Storage Services as a singleton
-builder.Services.AddSingleton<TokenStorageService>();
-builder.Services.AddSingleton<AthleteStorageService>();
-builder.Services.AddSingleton<SummaryActivitiesStorageService>();
 
 // Add session services
 builder.Services.AddDistributedMemoryCache();
@@ -54,6 +48,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

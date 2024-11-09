@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using TriathlonMetricAnalyzer.Models.CalculationTools;
-using TriathlonMetricAnalyzer.Models.StorageServices;
 using TriathlonMetricAnalyzer.Models.StravaAPIClient;
 using TriathlonMetricAnalyzer.Models.StravaAPIObjects;
 
@@ -10,19 +10,19 @@ namespace TriathlonMetricAnalyzer.Controllers
 {
     public class MetricsController : Controller
     {
-        private readonly SummaryActivitiesStorageService summaryActivitiesStorage = new SummaryActivitiesStorageService();
-        private readonly TokenStorageService userTokenStorage = new TokenStorageService();
 
-        public MetricsController(TokenStorageService UserTokenStorage, SummaryActivitiesStorageService SummaryActivitiesStorage)
-        {
-            userTokenStorage = UserTokenStorage;
-            summaryActivitiesStorage = SummaryActivitiesStorage;
-        }
-
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public IActionResult CalculateTLoad()
         {
+            if (HttpContext.Session.GetString("SummaryActivities") == null)
+            {
+                return View("~/Views/Home/Index.cshtml");
+            }
             List<float> TLoad = new List<float>() { 0, 0, 0, 0, 0, 0, 0, 0 };
-            foreach (SummaryActivity activity in summaryActivitiesStorage.SummaryActivities)
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.NullValueHandling = NullValueHandling.Ignore;
+            List<SummaryActivity> activities = JsonConvert.DeserializeObject<List<SummaryActivity>>(HttpContext.Session.GetString("SummaryActivities"), settings);
+            foreach (SummaryActivity activity in activities)
             {
                 DateTime startDateAtMidnight = activity.StartDate.Date;
                 int daysDifference = (DateTime.Today - startDateAtMidnight).Days;
@@ -61,10 +61,14 @@ namespace TriathlonMetricAnalyzer.Controllers
 
         public async Task<IActionResult> CalculateZones()
         {
-            List<SummaryActivity> benchmarkActivities = summaryActivitiesStorage.SummaryActivities.Where(activity => activity.Name.Contains("BT")).ToList();
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.NullValueHandling = NullValueHandling.Ignore;
+            List<SummaryActivity> activities = JsonConvert.DeserializeObject<List<SummaryActivity>>(HttpContext.Session.GetString("SummaryActivities"), settings);
+            List<SummaryActivity> benchmarkActivities = activities.Where(activity => activity.Name.Contains("BT")).ToList();
             SummaryActivity SwimBenchmark = null;
             SummaryActivity BikeBenchmark = null;
             SummaryActivity RunBenchmark = null;
+            TokenResponse tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(HttpContext.Session.GetString("UserToken"));
             if (benchmarkActivities.Count > 0)
             {
                 SwimBenchmark = benchmarkActivities.Where(activity => activity.SportType.Equals(SportType.Swim)).OrderByDescending(obj => obj.StartDate).FirstOrDefault();
@@ -74,7 +78,7 @@ namespace TriathlonMetricAnalyzer.Controllers
             // Swim
             if (SwimBenchmark != null)
             {
-                DetailedActivity activity = await StravaAPIClient.SendStravaDetailedActivityRequest(userTokenStorage.UserToken.AccessToken, SwimBenchmark.Id);
+                DetailedActivity activity = await StravaAPIClient.SendStravaDetailedActivityRequest(tokenResponse.AccessToken, SwimBenchmark.Id);
                 Lap lap = activity.Laps.OrderBy(lap => Math.Abs(lap.Distance - 500)).FirstOrDefault();
 
                 // T1 Zones
@@ -98,7 +102,7 @@ namespace TriathlonMetricAnalyzer.Controllers
             // Bike
             if (BikeBenchmark != null)
             {
-                StreamSet streamSet = await StravaAPIClient.SendStravaGetActivityStreamsRequest(userTokenStorage.UserToken.AccessToken, BikeBenchmark.Id);
+                StreamSet streamSet = await StravaAPIClient.SendStravaGetActivityStreamsRequest(tokenResponse.AccessToken, BikeBenchmark.Id);
 
 
                 int i = 1200;

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Runtime.ConstrainedExecution;
-using TriathlonMetricAnalyzer.Models.StorageServices;
 using TriathlonMetricAnalyzer.Models.StravaAPIObjects;
 
 namespace TriathlonMetricAnalyzer.Models.StravaAPIClient
@@ -10,7 +9,7 @@ namespace TriathlonMetricAnalyzer.Models.StravaAPIClient
 
         private static String baseUrl = $"https://www.strava.com/api/v3";
 
-        public static async Task<DetailedAthlete> SendStravaGetAuthenticateAthleteRequest(string userToken)
+        public static async Task<String> SendStravaGetAuthenticateAthleteRequest(string userToken)
         {
             HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, baseUrl + "/athlete");
             message.Headers.Add("Authorization", "Bearer " + userToken);
@@ -20,7 +19,7 @@ namespace TriathlonMetricAnalyzer.Models.StravaAPIClient
             if (response.IsSuccessStatusCode)
             {
                 var responseString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<DetailedAthlete>(responseString);
+                return responseString;
             }
             else
             {
@@ -28,7 +27,7 @@ namespace TriathlonMetricAnalyzer.Models.StravaAPIClient
             }
         }
 
-        public static async Task<List<SummaryActivity>> SendStravaListAthleteActivitiesRequest(string userToken)
+        public static async Task<String> SendStravaListAthleteActivitiesRequest(string userToken)
         {
             HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, baseUrl + $"/athlete/activities");
             message.Headers.Add("Authorization", "Bearer " + userToken);
@@ -38,9 +37,7 @@ namespace TriathlonMetricAnalyzer.Models.StravaAPIClient
             if (response.IsSuccessStatusCode)
             {
                 var responseString = await response.Content.ReadAsStringAsync();
-                JsonSerializerSettings settings = new JsonSerializerSettings();
-                settings.NullValueHandling = NullValueHandling.Ignore;
-                return JsonConvert.DeserializeObject<List<SummaryActivity>>(responseString, settings);
+                return responseString;
             }
             else
             {

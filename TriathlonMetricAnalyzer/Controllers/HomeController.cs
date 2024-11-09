@@ -1,30 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Diagnostics;
 using TriathlonMetricAnalyzer.Models;
-using TriathlonMetricAnalyzer.Models.StorageServices;
 using TriathlonMetricAnalyzer.Models.StravaAPIClient;
+using TriathlonMetricAnalyzer.Models.StravaAPIObjects;
 
 namespace TriathlonMetricAnalyzer.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly SummaryActivitiesStorageService summaryActivitiesStorage = new SummaryActivitiesStorageService();
-        private readonly AthleteStorageService athleteStorage = new AthleteStorageService();
 
-        public HomeController(ILogger<HomeController> logger, AthleteStorageService AthleteStorage, SummaryActivitiesStorageService SummaryActivitiesStorage)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            athleteStorage = AthleteStorage;
-            summaryActivitiesStorage = SummaryActivitiesStorage;
         }
 
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Index()
         {
-            if (athleteStorage.Athlete != null)
+            if (HttpContext.Session.GetString("AthleteDetails") != null)
             {
-                ViewBag.Athlete = athleteStorage.Athlete.FirstName + " " + athleteStorage.Athlete.LastName;
+                DetailedAthlete athlete = JsonConvert.DeserializeObject<DetailedAthlete>(HttpContext.Session.GetString("AthleteDetails"));
+                ViewBag.Athlete = athlete.FirstName + " " + athlete.LastName;
             }
             return View();
         }
@@ -41,9 +40,12 @@ namespace TriathlonMetricAnalyzer.Controllers
 
         public IActionResult Activities()
         {
-            if (summaryActivitiesStorage.SummaryActivities != null)
+            if (HttpContext.Session.GetString("SummaryActivities") != null)
             {
-                return View(summaryActivitiesStorage.SummaryActivities);
+                JsonSerializerSettings settings = new JsonSerializerSettings();
+                settings.NullValueHandling = NullValueHandling.Ignore;
+                List<SummaryActivity> activities = JsonConvert.DeserializeObject<List<SummaryActivity>>(HttpContext.Session.GetString("SummaryActivities"), settings);
+                return View(activities);
             }
 
             return RedirectToAction("Index", "Home");
