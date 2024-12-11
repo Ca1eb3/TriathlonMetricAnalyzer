@@ -16,7 +16,8 @@ namespace TriathlonMetricAnalyzer.Controllers
         {
             if (HttpContext.Session.GetString("SummaryActivities") == null)
             {
-                return View("~/Views/Home/Index.cshtml");
+                ViewBag.ErrorMessage = "There was an error processing your request.";
+                return View("Home", "Index");
             }
             List<float> TLoad = new List<float>() { 0, 0, 0, 0, 0, 0, 0, 0 };
             JsonSerializerSettings settings = new JsonSerializerSettings();
@@ -63,6 +64,12 @@ namespace TriathlonMetricAnalyzer.Controllers
         {
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.NullValueHandling = NullValueHandling.Ignore;
+
+            if (HttpContext.Session.GetString("SummaryActivities") == null)
+            {
+                return NotFound();
+            }
+
             List<SummaryActivity> activities = JsonConvert.DeserializeObject<List<SummaryActivity>>(HttpContext.Session.GetString("SummaryActivities"), settings);
             List<SummaryActivity> benchmarkActivities = activities.Where(activity => activity.Name.Contains("BT")).ToList();
             SummaryActivity SwimBenchmark = null;
@@ -99,6 +106,13 @@ namespace TriathlonMetricAnalyzer.Controllers
 
                 ViewBag.SwimZones = SwimZones;
             }
+            else
+            {
+                List<int> SwimZones = new List<int> { 0, 0, 0, 0, 0, 0, 0 };
+
+                ViewBag.SwimZones = SwimZones;
+            }
+
             // Bike
             if (BikeBenchmark != null)
             {
@@ -140,6 +154,12 @@ namespace TriathlonMetricAnalyzer.Controllers
 
                 ViewBag.BikeZones = BikeZones;
             }
+            else
+            {
+                List<int> BikeZones = new List<int> { 0, 0, 0, 0, 0, 0, 0 };
+
+                ViewBag.BikeZones = BikeZones;
+            }
 
             // Run
             // The run zone computations are based on the assumption the run benchmark test was the complete duration of the recorded activity and had a total distance of 5km
@@ -161,6 +181,12 @@ namespace TriathlonMetricAnalyzer.Controllers
                 // T7 Zones
                 int Zone7 = ZoneCalculator.RunPaceZones(RunBenchmark.ElapsedTime, .65);
                 List<int> RunZones = new List<int> { Zone1, Zone2, Zone3, Zone4, Zone5, Zone6, Zone7 };
+
+                ViewBag.RunZones = RunZones;
+            }
+            else
+            {
+                List<int> RunZones = new List<int> { 0, 0, 0, 0, 0, 0, 0 };
 
                 ViewBag.RunZones = RunZones;
             }
