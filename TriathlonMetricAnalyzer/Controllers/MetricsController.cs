@@ -16,7 +16,8 @@ namespace TriathlonMetricAnalyzer.Controllers
         {
             if (HttpContext.Session.GetString("SummaryActivities") == null)
             {
-                return View("~/Views/Home/Index.cshtml");
+                ViewBag.ErrorMessage = "There was an error processing your request.";
+                return View("Home", "Index");
             }
             List<float> TLoad = new List<float>() { 0, 0, 0, 0, 0, 0, 0, 0 };
             JsonSerializerSettings settings = new JsonSerializerSettings();
