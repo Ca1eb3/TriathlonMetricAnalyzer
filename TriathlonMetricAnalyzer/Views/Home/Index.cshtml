@@ -19,6 +19,45 @@
         </div>
     </div>
 
+    @if (ViewBag.TLoad != null)
+    {
+        <p>TLoad Last 7 Days: @ViewBag.TLoad[7]</p>
+
+        <div>
+            <canvas id="TLoadChart" style="width:100%;max-width:700px"></canvas>
+            <script>
+                (function CalcTLoad() {
+                    const last7Days = [];
+                    const today = new Date();
+
+                    // Loop to go back 7 days
+                    for (let i = 6; i >= 0; i--) {
+                        const currentDate = new Date();
+                        currentDate.setDate(today.getDate() - i);
+
+                        // Format date as YYYY-MM-DD
+                        const formattedDate = currentDate.toLocaleDateString();
+                        last7Days.push(formattedDate);
+                    }
+                    const xValues = last7Days;
+                    const yValues = [@ViewBag.TLoad[0], @ViewBag.TLoad[1], @ViewBag.TLoad[2], @ViewBag.TLoad[3], @ViewBag.TLoad[4], @ViewBag.TLoad[5], @ViewBag.TLoad[6]];
+
+                    new Chart("TLoadChart", {
+                        type: "line",
+                        data: {
+                            labels: xValues,
+                            datasets: [{
+                                backgroundColor: "rgba(0,0,255,1.0)",
+                                borderColor: "rgba(0,0,255,0.1)",
+                                data: yValues
+                            }]
+                        }
+                    });
+                })();
+            </script>
+        </div>
+    }
+
     @section Scripts {
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script type="text/javascript">
@@ -44,28 +83,6 @@
                             var athleteData = sessionStorage.getItem('AthleteData');
 
                             $('#athlete-container').append(athleteData);
-                        },
-                        error: function () {
-                            alert("An error occurred while loading athlete information.");
-                        }
-                    });
-                });
-
-                $('#Calculate-TLoad').click(function () {
-                    event.preventDefault();
-
-                    $.ajax({
-                        url: '@Url.Action("CalculateTLoad", "Home")',
-                        type: 'GET',
-                        data: { id: 1 },
-                        success: function (data) {
-                            // Store data in session storage
-                            sessionStorage.setItem('TLoad', data);
-
-                            // Retrieve data from session storage
-                            var tLoad = sessionStorage.getItem('TLoad');
-
-                            $('#athlete-container').append(tLoad);
                         },
                         error: function () {
                             alert("An error occurred while loading athlete information.");

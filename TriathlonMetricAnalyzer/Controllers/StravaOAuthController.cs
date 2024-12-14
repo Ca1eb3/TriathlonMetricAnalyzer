@@ -33,7 +33,7 @@ namespace TriathlonMetricAnalyzer.Controllers
                 TokenResponse tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(HttpContext.Session.GetString("UserToken"));
                 HttpContext.Session.SetString("AthleteDetails", await StravaAPIClient.SendStravaGetAuthenticateAthleteRequest(tokenResponse.AccessToken));
                 HttpContext.Session.SetString("SummaryActivities", await StravaAPIClient.SendStravaListAthleteActivitiesRequest(tokenResponse.AccessToken));
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("CalculateTLoad", "Metrics");
             }
             else
             {
