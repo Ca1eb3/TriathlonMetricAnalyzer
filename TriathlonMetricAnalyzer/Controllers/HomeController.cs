@@ -33,11 +33,6 @@ namespace TriathlonMetricAnalyzer.Controllers
             return RedirectToAction("AuthorizeStrava", "StravaOAuth");
         }
 
-        public IActionResult CalculateTLoad()
-        {
-            return RedirectToAction("CalculateTLoad", "Metrics");
-        }
-
         public IActionResult Activities()
         {
             if (HttpContext.Session.GetString("SummaryActivities") != null)

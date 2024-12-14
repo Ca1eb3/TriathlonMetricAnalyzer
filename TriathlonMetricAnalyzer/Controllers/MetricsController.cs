@@ -57,7 +57,8 @@ namespace TriathlonMetricAnalyzer.Controllers
                     }
                 }
             }
-            return PartialView("~/Views/Home/_TLoadPartial.cshtml", TLoad);
+            ViewBag.TLoad = TLoad;
+            return View("~/Views/Home/Index.cshtml");
         }
 
         public async Task<IActionResult> CalculateZones()
