@@ -51,6 +51,10 @@ namespace TriathlonMetricAnalyzer.Controllers
             return RedirectToAction("CalculateZones", "Metrics");
         }
 
+        public IActionResult Estimator()
+        {
+            return RedirectToAction("Estimator", "Metrics");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

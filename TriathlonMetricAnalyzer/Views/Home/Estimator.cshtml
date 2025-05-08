@@ -1,0 +1,111 @@
+﻿
+<style>
+    table {
+        border-collapse: separate; /* Ensures that border-spacing works */
+        /* border-spacing: 5px; /* Adds space between columns and rows */ 
+        width: 100%; /* Optional: Adjust table width */
+    }
+
+    td {
+        width: contain;
+
+    }
+
+    th {
+        width: contain;
+    }
+
+    td {
+        background-color: #f2f2f2; /* Optional: Background color for headers */
+    }
+</style>
+
+<h1>Race Estimator</h1>
+
+<form method="post" name="estimator" asp-controller="Metrics" asp-action="EstimateRace">
+    <table border="1">
+        <tr>
+            <th>Swim</th>
+        </tr>
+        <tr>
+            <td>Distance (km)</td>
+            <td>Pace/100</td>
+            <td>Time</td>
+        </tr>
+        <tr>
+            <td><input type="number" step=".01" name="swimDistance" placeholder="Distance (km)" /></td>
+            <td><input type="number" step="1" max="59" name="swimMinutes" placeholder="Minutes" />:<input type="number" step="1" max="59" name="swimSeconds" placeholder="Seconds" /></td>
+            @if(ViewBag.SwimTime != null)
+            {
+                <td>@TimeSpan.FromSeconds(ViewBag.SwimTime)</td>
+            }
+        </tr>
+
+        <tr>
+            <th>T1</th>
+        </tr>
+            <td>Time</td>
+        </tr>
+        <tr>
+            <td><input type="number" step="1" max="59" name="t1Minutes" placeholder="Minutes" />:<input type="number" step="1" max="59" name="t2Seconds" placeholder="Seconds" /></td>
+        </tr>
+
+        <tr>
+            <th>Bike</th>
+        </tr>
+        <tr>
+            <td>Distance (km)</td>
+            <td>Speed</td>
+            <td>Time</td>
+        </tr>
+        <tr>
+            <td><input type="number" step=".01" name="bikeDistance" placeholder="Distance (km)" /></td>
+            <td><input type="number" step=".01" name="bikeSpeed" placeholder="Speed (kph)" /></td>
+            @if (ViewBag.BikeTime != null)
+            {
+                <td>@TimeSpan.FromSeconds(ViewBag.BikeTime)</td>
+            }
+        </tr>
+
+        <tr>
+            <th>T2</th>
+        </tr>
+        <td>Time</td>
+        </tr>
+        <tr>
+            <td><input type="number" step="1" max="59" name="t2Minutes" placeholder="Minutes" />:<input type="number" step="1" max="59" name="t2Seconds" placeholder="Seconds" /></td>
+        </tr>
+
+        <tr>
+            <th>Run</th>
+        </tr>
+        <tr>
+            <td>Distance (km)</td>
+            <td>Pace/km</td>
+            <td>Time</td>
+        </tr>
+        <tr>
+            <td><input type="number" step=".01" name="runDistance" placeholder="Distance (km)" /></td>
+            <td><input type="number" step="1" max="59" name="runMinutes" placeholder="Minutes" />:<input type="number" step="1" max="59" name="runSeconds" placeholder="Seconds" /></td>
+            @if (ViewBag.RunTime != null)
+            {
+                <td>@TimeSpan.FromSeconds(ViewBag.RunTime)</td>
+            }
+        </tr>
+
+        <tr>
+            <th>Finish</th>
+        </tr>
+        <tr>
+            <td>Time</td>
+        </tr>
+        <tr>
+            @if (ViewBag.Time != null)
+            {
+                <td>@TimeSpan.FromSeconds(ViewBag.Time)</td>
+            }
+        </tr>
+
+    </table>
+    <input type="submit">
+</form>
