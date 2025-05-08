@@ -194,5 +194,30 @@ namespace TriathlonMetricAnalyzer.Controllers
 
             return View("~/Views/Home/Zones.cshtml");
         }
+
+        public async Task<IActionResult> Estimator()
+        {
+            return View("~/Views/Home/Estimator.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EstimateRace(double swimDistance = 1.5, int swimMinutes = 2, int swimSeconds = 0, int t1Minutes = 1, int t1Seconds = 0, double bikeDistance = 40, double bikeSpeed = 20, int t2Minutes = 0, int t2Seconds = 45, double runDistance = 10, int runMinutes = 4, int runSeconds = 0)
+        {
+            // Compute Swim Time Seconds
+            int swimPace = swimMinutes * 60 + swimSeconds;
+            ViewBag.SwimTime = Convert.ToInt32(((swimDistance * 1000) / 100) * swimPace);
+
+            // Compute Bike Time Seconds
+            ViewBag.BikeTime = Convert.ToInt32((bikeDistance / bikeSpeed) * 3600);
+
+            // Compute Run Time
+            int runPace = runMinutes * 60 + runSeconds;
+            ViewBag.RunTime = Convert.ToInt32(runDistance * runPace);
+
+            // Compute Total Time
+            ViewBag.Time = Convert.ToInt32(ViewBag.SwimTime + (t1Minutes * 60) + t1Seconds + ViewBag.BikeTime + (t2Minutes * 60) + t2Seconds + ViewBag.RunTime);
+
+            return View("~/Views/Home/Estimator.cshtml");
+        }
     }
 }
