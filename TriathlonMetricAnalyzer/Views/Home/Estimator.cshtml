@@ -4,6 +4,7 @@
         border-collapse: separate; /* Ensures that border-spacing works */
         /* border-spacing: 5px; /* Adds space between columns and rows */ 
         width: 100%; /* Optional: Adjust table width */
+        background-color: #aaaaaa;
     }
 
     td {
@@ -16,7 +17,8 @@
     }
 
     td {
-        background-color: #f2f2f2; /* Optional: Background color for headers */
+        width: contain;
+        /* background-color: #f2f2f2; /* Optional: Background color for headers */ */
     }
 </style>
 
@@ -33,8 +35,22 @@
             <td>Time</td>
         </tr>
         <tr>
-            <td><input type="number" step=".01" name="swimDistance" placeholder="Distance (km)" /></td>
-            <td><input type="number" step="1" max="59" name="swimMinutes" placeholder="Minutes" />:<input type="number" step="1" max="59" name="swimSeconds" placeholder="Seconds" /></td>
+            @if(ViewBag.SwimDistance != null)
+            {
+                <td><input type="number" step=".01" name="swimDistance" placeholder="Distance (km)" value="@ViewBag.SwimDistance"/></td>
+            }
+            else
+            {
+                <td><input type="number" step=".01" name="swimDistance" placeholder="Distance (km)" value="1.5" /></td>
+            }
+            @if(ViewBag.SwimMinutes != null)
+            {
+                <td><input type="number" step="1" max="59" name="swimMinutes" placeholder="Minutes" value="@ViewBag.SwimMinutes"/>:<input type="number" step="1" max="59" name="swimSeconds" placeholder="Seconds" value="@ViewBag.SwimSeconds"/></td>
+            }
+            else
+            {
+                <td><input type="number" step="1" max="59" name="swimMinutes" placeholder="Minutes" />:<input type="number" step="1" max="59" name="swimSeconds" placeholder="Seconds" /></td>
+            }
             @if(ViewBag.SwimTime != null)
             {
                 <td>@TimeSpan.FromSeconds(ViewBag.SwimTime)</td>
@@ -47,7 +63,14 @@
             <td>Time</td>
         </tr>
         <tr>
-            <td><input type="number" step="1" max="59" name="t1Minutes" placeholder="Minutes" />:<input type="number" step="1" max="59" name="t2Seconds" placeholder="Seconds" /></td>
+            @if(ViewBag.T1Minutes != null)
+            {
+                <td><input type="number" step="1" max="59" name="t1Minutes" placeholder="Minutes" value="@ViewBag.T1Minutes" />:<input type="number" step="1" max="59" name="t1Seconds" placeholder="Seconds" value="@ViewBag.T1Seconds" /></td>
+            }
+            else
+            {
+                <td><input type="number" step="1" max="59" name="t1Minutes" placeholder="Minutes" value="1" />:<input type="number" step="1" max="59" name="t2Seconds" placeholder="Seconds" value="30" /></td>
+            }
         </tr>
 
         <tr>
@@ -59,8 +82,22 @@
             <td>Time</td>
         </tr>
         <tr>
-            <td><input type="number" step=".01" name="bikeDistance" placeholder="Distance (km)" /></td>
-            <td><input type="number" step=".01" name="bikeSpeed" placeholder="Speed (kph)" /></td>
+            @if(ViewBag.BikeDistance != null)
+            {
+                <td><input type="number" step=".01" name="bikeDistance" placeholder="Distance (km)" value="@ViewBag.BikeDistance" /></td>
+            }
+            else
+            {
+               <td><input type="number" step=".01" name="bikeDistance" placeholder="Distance (km)" value="40"/></td> 
+            }
+            @if(ViewBag.BikeSpeed != null)
+            {
+                <td><input type="number" step=".01" name="bikeSpeed" placeholder="Speed (kph)" value="@ViewBag.BikeSpeed" /></td>
+            }
+            else
+            {
+                <td><input type="number" step=".01" name="bikeSpeed" placeholder="Speed (kph)" /></td>
+            }
             @if (ViewBag.BikeTime != null)
             {
                 <td>@TimeSpan.FromSeconds(ViewBag.BikeTime)</td>
@@ -73,7 +110,14 @@
         <td>Time</td>
         </tr>
         <tr>
-            <td><input type="number" step="1" max="59" name="t2Minutes" placeholder="Minutes" />:<input type="number" step="1" max="59" name="t2Seconds" placeholder="Seconds" /></td>
+            @if(ViewBag.T2Minutes != null)
+            {
+                <td><input type="number" step="1" max="59" name="t2Minutes" placeholder="Minutes" value="@ViewBag.T2Minutes" />:<input type="number" step="1" max="59" name="t2Seconds" placeholder="Seconds" value="@ViewBag.T2Seconds" /></td>
+            }
+            else
+            {
+                <td><input type="number" step="1" max="59" name="t2Minutes" placeholder="Minutes" value="1" />:<input type="number" step="1" max="59" name="t2Seconds" placeholder="Seconds" value="0" /></td>
+            }
         </tr>
 
         <tr>
@@ -85,8 +129,22 @@
             <td>Time</td>
         </tr>
         <tr>
-            <td><input type="number" step=".01" name="runDistance" placeholder="Distance (km)" /></td>
-            <td><input type="number" step="1" max="59" name="runMinutes" placeholder="Minutes" />:<input type="number" step="1" max="59" name="runSeconds" placeholder="Seconds" /></td>
+            @if (ViewBag.RunDistance != null)
+            {
+                <td><input type="number" step=".01" name="runDistance" placeholder="Distance (km)" value="@ViewBag.RunDistance" /></td>
+            }
+            else
+            {
+                <td><input type="number" step=".01" name="runDistance" placeholder="Distance (km)" value="10" /></td>
+            }
+           @if (ViewBag.RunMinutes != null)
+            {
+                <td><input type="number" step="1" max="59" name="runMinutes" placeholder="Minutes" value="@ViewBag.RunMinutes"/>:<input type="number" step="1" max="59" name="runSeconds" placeholder="Seconds" value="@ViewBag.RunSeconds"/></td>
+            }
+            else
+            {
+                <td><input type="number" step="1" max="59" name="runMinutes" placeholder="Minutes" />:<input type="number" step="1" max="59" name="runSeconds" placeholder="Seconds" /></td>
+            }
             @if (ViewBag.RunTime != null)
             {
                 <td>@TimeSpan.FromSeconds(ViewBag.RunTime)</td>
