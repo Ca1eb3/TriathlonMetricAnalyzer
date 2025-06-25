@@ -201,8 +201,22 @@ namespace TriathlonMetricAnalyzer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EstimateRace(double swimDistance = 1.5, int swimMinutes = 2, int swimSeconds = 0, int t1Minutes = 1, int t1Seconds = 0, double bikeDistance = 40, double bikeSpeed = 20, int t2Minutes = 0, int t2Seconds = 45, double runDistance = 10, int runMinutes = 4, int runSeconds = 0)
+        public async Task<IActionResult> EstimateRace(double swimDistance = 1.5, int swimMinutes = 2, int swimSeconds = 0, int t1Minutes = 1, int t1Seconds = 0, double bikeDistance = 40, double bikeSpeed = 35, int t2Minutes = 0, int t2Seconds = 45, double runDistance = 10, int runMinutes = 4, int runSeconds = 0)
         {
+            // Pass Estimator values through to view
+            ViewBag.SwimDistance = swimDistance;
+            ViewBag.SwimMinutes = swimMinutes;
+            ViewBag.SwimSeconds = swimSeconds;
+            ViewBag.T1Minutes = t1Minutes;
+            ViewBag.T1Seconds = t1Seconds;
+            ViewBag.BikeDistance = bikeDistance;
+            ViewBag.BikeSpeed = bikeSpeed;
+            ViewBag.T2Minutes = t2Minutes;
+            ViewBag.T2Seconds = t2Seconds;
+            ViewBag.RunDistance = runDistance;
+            ViewBag.RunMinutes = runMinutes;
+            ViewBag.RunSeconds = runSeconds;
+
             // Compute Swim Time Seconds
             int swimPace = swimMinutes * 60 + swimSeconds;
             ViewBag.SwimTime = Convert.ToInt32(((swimDistance * 1000) / 100) * swimPace);
