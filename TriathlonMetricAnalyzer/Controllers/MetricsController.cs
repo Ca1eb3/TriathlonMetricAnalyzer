@@ -10,57 +10,6 @@ namespace TriathlonMetricAnalyzer.Controllers
 {
     public class MetricsController : Controller
     {
-
-        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-        public IActionResult CalculateTLoad()
-        {
-            if (HttpContext.Session.GetString("SummaryActivities") == null)
-            {
-                ViewBag.ErrorMessage = "There was an error processing your request.";
-                return View("Home", "Index");
-            }
-            List<float> TLoad = new List<float>() { 0, 0, 0, 0, 0, 0, 0, 0 };
-            JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.NullValueHandling = NullValueHandling.Ignore;
-            List<SummaryActivity> activities = JsonConvert.DeserializeObject<List<SummaryActivity>>(HttpContext.Session.GetString("SummaryActivities"), settings);
-            foreach (SummaryActivity activity in activities)
-            {
-                DateTime startDateAtMidnight = activity.StartDate.Date;
-                int daysDifference = (DateTime.Today - startDateAtMidnight).Days;
-                if (daysDifference < 7)
-                {
-                    TLoad[7] += (activity.Distance / activity.MovingTime) * 1; // the 1 is a place holder for a future calculated intensity factor
-
-                    switch (daysDifference)
-                    {
-                        case 0:
-                            TLoad[0] += (activity.Distance / activity.MovingTime) * 1;
-                            continue;
-                        case 1:
-                            TLoad[1] += (activity.Distance / activity.MovingTime) * 1;
-                            continue;
-                        case 2:
-                            TLoad[2] += (activity.Distance / activity.MovingTime) * 1;
-                            continue;
-                        case 3:
-                            TLoad[3] += (activity.Distance / activity.MovingTime) * 1;
-                            continue;
-                        case 4:
-                            TLoad[4] += (activity.Distance / activity.MovingTime) * 1;
-                            continue;
-                        case 5:
-                            TLoad[5] += (activity.Distance / activity.MovingTime) * 1;
-                            continue;
-                        case 6:
-                            TLoad[6] += (activity.Distance / activity.MovingTime) * 1;
-                            continue;
-                    }
-                }
-            }
-            ViewBag.TLoad = TLoad;
-            return View("~/Views/Home/Index.cshtml");
-        }
-
         public async Task<IActionResult> CalculateZones()
         {
             JsonSerializerSettings settings = new JsonSerializerSettings();
