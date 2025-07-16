@@ -5,6 +5,7 @@ using System.Diagnostics;
 using TriathlonMetricAnalyzer.Models;
 using TriathlonMetricAnalyzer.Models.StravaAPIClient;
 using TriathlonMetricAnalyzer.Models.StravaAPIObjects;
+using TriathlonMetricAnalyzer.Models.CalculationTools;
 
 namespace TriathlonMetricAnalyzer.Controllers
 {
@@ -24,8 +25,22 @@ namespace TriathlonMetricAnalyzer.Controllers
             {
                 DetailedAthlete athlete = JsonConvert.DeserializeObject<DetailedAthlete>(HttpContext.Session.GetString("AthleteDetails"));
                 ViewBag.Athlete = athlete.FirstName + " " + athlete.LastName;
+                if (HttpContext.Session.GetString("SummaryActivities") == null)
+                {
+                    ViewBag.ErrorMessage = "There was an error processing your request.";
+                    return View("Home", "Index");
+                }
+                JsonSerializerSettings settings = new JsonSerializerSettings();
+                settings.NullValueHandling = NullValueHandling.Ignore;
+                List<SummaryActivity> activities = JsonConvert.DeserializeObject<List<SummaryActivity>>(HttpContext.Session.GetString("SummaryActivities"), settings);
+                ViewBag.TLoad = TLoadCalculator.CalculateTLoadLast7Days(activities);
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View();
+            else
+            {
+                return View();
+            }
+            
         }
 
         public IActionResult Authorize()
