@@ -37,6 +37,7 @@ namespace TriathlonMetricAnalyzer.Controllers
             {
                 DetailedActivity activity = await StravaAPIClient.SendStravaDetailedActivityRequest(tokenResponse.AccessToken, SwimBenchmark.Id);
                 Lap lap = activity.Laps.OrderBy(lap => Math.Abs(lap.Distance - 500)).FirstOrDefault();
+                ViewBag.SwimBenchmarkTime = lap.ElapsedTime;
 
                 // T1 Zones
                 int Zone1 = ZoneCalculator.SwimPaceZones(lap.ElapsedTime, 5000);
@@ -61,6 +62,7 @@ namespace TriathlonMetricAnalyzer.Controllers
                 List<int> SwimZones = new List<int> { 0, 0, 0, 0, 0, 0, 0 };
 
                 ViewBag.SwimZones = SwimZones;
+                ViewBag.SwimBenchmarkTime = 0;
             }
 
             // Bike
@@ -86,29 +88,17 @@ namespace TriathlonMetricAnalyzer.Controllers
                     i++;
                 }
 
-                // T1 Zones
-                int Zone1 = Convert.ToInt32(maxAveragePower * .55);
-                // T2 Zones
-                int Zone2 = Convert.ToInt32(maxAveragePower * .70);
-                // T3 Zones
-                int Zone3 = Convert.ToInt32(maxAveragePower * .80);
-                // T4 Zones
-                int Zone4 = Convert.ToInt32(maxAveragePower * .95);
-                // T5 Zones
-                int Zone5 = maxAveragePower;
-                // T6 Zones
-                int Zone6 = Convert.ToInt32(maxAveragePower * 1.30);
-                // T7 Zones
-                int Zone7 = Convert.ToInt32(maxAveragePower * 1.75);
-                List<int> BikeZones = new List<int> { Zone1, Zone2, Zone3, Zone4, Zone5, Zone6, Zone7 };
+                List<int> BikeZones = ZoneCalculator.BikeZones(maxAveragePower);
 
                 ViewBag.BikeZones = BikeZones;
+                ViewBag.FTP = maxAveragePower;
             }
             else
             {
                 List<int> BikeZones = new List<int> { 0, 0, 0, 0, 0, 0, 0 };
 
                 ViewBag.BikeZones = BikeZones;
+                ViewBag.FTP = 0;
             }
 
             // Run
@@ -133,12 +123,14 @@ namespace TriathlonMetricAnalyzer.Controllers
                 List<int> RunZones = new List<int> { Zone1, Zone2, Zone3, Zone4, Zone5, Zone6, Zone7 };
 
                 ViewBag.RunZones = RunZones;
+                ViewBag.RunBenchmarkTime = RunBenchmark.ElapsedTime;
             }
             else
             {
                 List<int> RunZones = new List<int> { 0, 0, 0, 0, 0, 0, 0 };
 
                 ViewBag.RunZones = RunZones;
+                ViewBag.RunBenchmarkTime = 0;
             }
 
             return View("~/Views/Home/Zones.cshtml");
