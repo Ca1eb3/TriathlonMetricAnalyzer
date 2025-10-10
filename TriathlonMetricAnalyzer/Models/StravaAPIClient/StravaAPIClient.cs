@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Runtime.ConstrainedExecution;
 using TriathlonMetricAnalyzer.Models.StravaAPIObjects;
 
@@ -29,8 +30,16 @@ namespace TriathlonMetricAnalyzer.Models.StravaAPIClient
 
         public static async Task<String> SendStravaListAthleteActivitiesRequest(string userToken)
         {
-            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, baseUrl + $"/athlete/activities");
+            // Build the full URL with query parameters
+            var uriBuilder = new UriBuilder(baseUrl + $"/athlete/activities");
+            var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["per_page"] = "50";
+            //query["page"] = "2"; // Leave Here for possible future activity pagination
+            uriBuilder.Query = query.ToString();
+
+            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, uriBuilder.ToString());
             message.Headers.Add("Authorization", "Bearer " + userToken);
+            
             HttpClient client = new HttpClient();
             var response = client.Send(message);
 

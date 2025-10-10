@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Zones";
 }
+@using TriathlonMetricAnalyzer.Models.CalculationTools;
 
 <style>
     table {
@@ -24,6 +25,10 @@
 <div>
     <h4>Swim Zones</h4>
     <table border="1">
+        <tr>
+            <th>500yd Benchmark Time</th>
+            <th>@TimeSpan.FromSeconds(ViewBag.SwimBenchmarkTime)</th>
+        </tr>
         <tr>
             <th>Zone</th>
             <th>Pace/100</th>
@@ -63,6 +68,10 @@
     <h4>Bike Zones</h4>
     <table border="1">
         <tr>
+            <th>Bike Benchmark FTP</th>
+            <th><input type="number" step="1" name="FTP" placeholder="FTP" value="@ViewBag.FTP" /></th>
+        </tr>
+        <tr>
             <th>Zone</th>
             <th>Watts</th>
         </tr>
@@ -101,6 +110,10 @@
     <h4>Run Zones</h4>
     <table border="1">
         <tr>
+            <th>5000m Benchmark time</th>
+            <th>@TimeSpan.FromSeconds(ViewBag.RunBenchmarkTime)</th>
+        </tr>
+        <tr>
             <th>Zone</th>
             <th>Pace/km</th>
         </tr>
@@ -134,3 +147,5 @@
         </tr>
     </table>
 </div>
+<div id="zonesOutput"></div>
+
